@@ -7,8 +7,22 @@
         {{ .Site.Title }}
       {{ end }}
     </a>
+
     <div class="flex-l items-center">
-      {{ partials.Include "i18nlist.html" . }}
+
+      <!-- Language Switcher -->
+      <div class="mr3">
+        {{ range .Site.Languages }}
+          {{ if eq $.Site.Language.Lang .Lang }}
+            <strong class="white-90 mr2">{{ .LanguageName }}</strong>
+          {{ else }}
+            <a class="hover-white white-80 no-underline mr2" href="{{ printf "/%s/" .Lang | relLangURL }}">
+              {{ .LanguageName }}
+            </a>
+          {{ end }}
+        {{ end }}
+      </div>
+
       {{ if .Site.Menus.main }}
         <ul class="{{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pr0 ml3" "pl0 mr3" }}">
           {{ range .Site.Menus.main }}
@@ -20,7 +34,9 @@
           {{ end }}
         </ul>
       {{ end }}
+
       {{ partials.IncludeCached "social/follow.html" . }}
+
     </div>
   </div>
 </nav>
